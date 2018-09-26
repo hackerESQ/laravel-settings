@@ -36,7 +36,7 @@ class SettingsServiceProvider extends ServiceProvider {
 		Route::group(['middleware' => ['throttle:120','auth:api'], 'prefix'=>'api' ], function () {
 
 			// Put updates to global settings 
-			Route::put('settings', 'CaseTime\Settings\Controllers\SettingController@update');
+			Route::put('settings', 'hackerESQ\Settings\Controllers\SettingController@update');
 
 		});
     }
@@ -50,7 +50,7 @@ class SettingsServiceProvider extends ServiceProvider {
 
 
 		// bind 'settings' to the class named 'settings' in the IOC container
-		$this->app->singleton('settings','CaseTime\Settings\Settings');
+		$this->app->singleton('settings','hackerESQ\Settings\Settings');
 
 
 
