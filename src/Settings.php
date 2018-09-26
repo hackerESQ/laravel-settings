@@ -38,7 +38,7 @@ class Settings
 
         // DO WE NEED TO DECRYPT ANYTHING?
         foreach ($settings as $setting => $value) {
-            if (in_array($setting, config('settings.encrypt'))) {
+            if (in_array($setting, config('settings.encrypt',[]))) {
                 array_set($settings, $setting, decrypt($settings[$setting]));
             }
         }
