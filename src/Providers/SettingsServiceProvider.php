@@ -19,16 +19,21 @@ class SettingsServiceProvider extends ServiceProvider {
     {
 
     	/**
-		 * Publish settings config file
-		 */
-    	$this->publishes([
+         * Publish settings config file
+         */
+        $this->publishes([
             __DIR__ . '/../../config/settings.php' => config_path('settings.php'),
-        ]);
+        ], 'config');
+
 
         /**
-		 * Register migrations
-		 */
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations/');
+         * Publish settings migration
+         */
+        $timestamp = date('Y_m_d_His', time());
+
+        $this->publishes([
+            __DIR__.'/../../database/migrations/create_settings_table.php' => $this->app->databasePath()."/migrations/{$timestamp}_create_settings_table.php",
+        ], 'migrations');
 
 		/**
 		 * Settings API route
