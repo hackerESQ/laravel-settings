@@ -7,26 +7,6 @@ use Cache;
 
 class Settings
 {
-    /*
-    *   Install: 
-    *
-    *   Config/app.php:
-    *       
-    *       'providers' => [
-    *           App\CaseTime\Providers\SettingsServiceProvider::class,
-    *       ]
-    *
-    *       'aliases' => [
-    *           'Settings' => App\Settings::class,
-    *       ]
-    *
-    *   Usage:
-    *
-    *       Settings::set(['firm_name'=>'new']);
-    *       Settings::get();
-    *       Settings::get('firm_name');
-    *       Settings::get(['firm_name','contact_types']);
-    */
 
     public function resolveCache() {
         return Cache::rememberForever('settings', function () {
@@ -37,9 +17,9 @@ class Settings
     public function decryptHandler($settings) {
 
         // DO WE NEED TO DECRYPT ANYTHING?
-        foreach ($settings as $setting => $value) {
-            if (in_array($setting, config('settings.encrypt',[]))) {
-                array_set($settings, $setting, decrypt($settings[$setting]));
+        foreach ($settings as $key => $value) {
+            if ( in_array( $key, config('settings.encrypt',[]) ) && !empty($value) ) {
+                array_set($settings, $key, decrypt($settings[$key]));
             }
         }
 
