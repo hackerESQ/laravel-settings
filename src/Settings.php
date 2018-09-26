@@ -8,7 +8,7 @@ use Cache;
 class Settings
 {
     /*
-    *   Install:
+    *   Install: test
     *
     *   Config/app.php:
     *       
