@@ -28,7 +28,7 @@ class SettingsServiceProvider extends ServiceProvider {
         /**
 		 * Register migrations
 		 */
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations/');
 
 		/**
 		 * Settings API route
