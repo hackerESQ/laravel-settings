@@ -63,7 +63,7 @@ class Settings
 
         // DO WE NEED TO ENCRYPT ANYTHING?
         foreach ($changes as $key => $value) {
-            if (in_array($key, config('settings.encrypt'))) {
+            if ( in_array($key, config('settings.encrypt') ) && !empty($value) ) {
                 array_set($changes, $key, encrypt($value));
             }
         }
