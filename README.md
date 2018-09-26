@@ -1,5 +1,5 @@
 # Settings
-Super simple key/value settings for Laravel 5+ that natively supports (encryption)[#encryption].
+Super simple key/value settings for Laravel 5+ that natively supports [encryption](#encryption).
 
 * [Installation](#installation)
 * [Usage](#usage)
