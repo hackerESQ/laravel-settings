@@ -1,0 +1,31 @@
+{
+    "name": "hackeresq/settings",
+    "description": "Super simple key/value settings for Laravel 5+",
+    "keywords": [
+        "settings",
+        "laravel",
+        "key",
+        "value"
+    ],
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "hackerESQ\\Settings\\": "src/"
+        }
+    },
+    "require": {
+        "php" : ">=7.0",
+        "laravel/framework": "~5.4.0|~5.5.0|~5.6.0|~5.7.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "hackerESQ\\Settings\\Providers\\SettingsServiceProvider"
+            ],
+            "aliases": {
+                "Settings": "hackerESQ\\Settings\\Facades\\Settings"
+            }
+        }
+    }
+}
