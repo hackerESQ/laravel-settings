@@ -61,11 +61,7 @@ You can set new settings using the "set" method, which accepts an associative ar
 Settings::set(['firm_name'=>'new']);
 ```
 
-This will save the new setting and cache it to minimize database queries. When you [get](#get-all-settings) settings, it will first try to retrieve the setting from the cache.
-
-<b>For security reasons, this will first check to see if such a setting key exists in your "settings" table or in the cache. If a key does exist, it will set it. If the key does not exist, <i>it will disregard the change.</i> </b>
-
-If you want to force set a setting, you can pass true for the second parameter of the set method:
+<b style="color:red;">For security reasons, this will first check to see if such a setting key exists in your "settings" table or in the cache. If a key does exist, it will set it. If the key does not exist, <i>it will disregard the change.</i> </b> If you want to force set a setting, you can pass true for the second parameter of the set method:
 
 ```php
 Settings::set(['firm_name'=>'new'],true);
