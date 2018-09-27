@@ -39,7 +39,7 @@ The same is true for the alias. If you're running Laravel 5.5+, you can also ski
 You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file with:
 
 ```bash
-php artisan vendor:publish --provider="hackerESQ\Settings\Providers\SettingsServiceProvider"
+php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider"
 ```
 
 After the migration has been published you can create the setting key/value table by running:
