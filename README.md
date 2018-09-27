@@ -24,7 +24,7 @@ In Laravel 5.5+ the service provider will automatically get registered and you c
 ```php
 'providers' => [
     // ...
-    hackerESQ\Settings\Providers\SettingsServiceProvider::class,
+    hackerESQ\Settings\SettingsServiceProvider::class,
 ];
 ```
 The same is true for the alias. If you're running Laravel 5.5+, you can also skip this step. In older versions of the framework just add the alias in `config/app.php` file:

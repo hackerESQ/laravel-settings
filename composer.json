@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "hackerESQ\\Settings\\Providers\\SettingsServiceProvider"
+                "hackerESQ\\Settings\\SettingsServiceProvider"
             ],
             "aliases": {
                 "Settings": "hackerESQ\\Settings\\Facades\\Settings"

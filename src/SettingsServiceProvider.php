@@ -35,15 +35,6 @@ class SettingsServiceProvider extends ServiceProvider {
             __DIR__.'/../../database/migrations/create_settings_table.php' => $this->app->databasePath()."/migrations/{$timestamp}_create_settings_table.php",
         ], 'migrations');
 
-		/**
-		 * Settings API route
-		 */
-		Route::group(['middleware' => ['throttle:120','auth:api'], 'prefix'=>'api' ], function () {
-
-			// Put updates to global settings 
-			Route::put('settings', 'hackerESQ\Settings\Controllers\SettingController@update');
-
-		});
     }
 
 	/**
