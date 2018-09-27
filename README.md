@@ -79,21 +79,21 @@ Settings::set( ['firm_name'=>'new'] , env('APP_ENV') == 'local' ? true : false )
 
 
 ### Get all settings
-You can return a list of all settings using, where no parameters are passed:
+If no parameters are passed to the "get" method, it will return an array of all settings:
 
 ```php
 Settings::get();
 ```
 
 ### Get single setting
-You can return a single setting using, where the first parameter is a string that represents a setting 'key':
+You can return a single setting by passing a single setting key:
 
 ```php
 Settings::get('firm_name');
 ```
 
 ### Get certain settings
-You can return a list of particular settings using, where the first parameter is an array of setting 'keys':
+You can also return a list of specified settings by passing an array of setting keys:
 
 ```php
 Settings::get(['firm_name','contact_types']);
