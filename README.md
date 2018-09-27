@@ -19,7 +19,7 @@ You can install the package via composer:
 composer require hackeresq/settings
 ```
 
-In Laravel 5.5+ the service provider will automatically get registered. In older versions of the framework just add the service provider in `config/app.php` file:
+In Laravel 5.5+ the service provider will automatically get registered and you can skip this step. In older versions of the framework just add the service provider in `config/app.php` file:
 
 ```php
 'providers' => [
@@ -27,7 +27,7 @@ In Laravel 5.5+ the service provider will automatically get registered. In older
     hackerESQ\Settings\Providers\SettingsServiceProvider::class,
 ];
 ```
-The same is true for the Facade. If you're running Laravel 5.5+, you can skip this step. In older versions of the framework just add the service provider in `config/app.php` file:
+The same is true for the Facade. If you're running Laravel 5.5+, you can also skip this step. In older versions of the framework just add the service provider in `config/app.php` file:
 
 ```php
 'aliases' => [
