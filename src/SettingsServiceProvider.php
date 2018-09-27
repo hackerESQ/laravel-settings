@@ -1,6 +1,6 @@
 <?php
 
-namespace hackerESQ\Settings\Providers;
+namespace hackerESQ\Settings;
 
 use Illuminate\Support\ServiceProvider;
 use Route;
