@@ -7,7 +7,7 @@ Super simple key/value settings for Laravel 5.4+ that natively supports [encrypt
   * [Get all settings](#get-all-settings)
   * [Get single setting](#get-single-setting)
   * [Get certain setting](#get-certain-setting)
-  * [Encryption](#encryption)
+* [Encryption](#encryption)
   
   
 ## Installation
@@ -36,16 +36,10 @@ The same is true for the alias. If you're running Laravel 5.5+, you can also ski
 ];
 ```
 
-You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file with:
+You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) files and migrate the new settings table with:
 
 ```bash
-php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider"
-```
-
-After the migration has been published you can create the setting key/value table by running:
-
-```bash
-php artisan migrate
+php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider" && php artisan migrate
 ```
 
 <b>Success!</b> Settings is now installed!
@@ -106,4 +100,11 @@ You can define keys that should be encrypted automatically within the [config/se
     ],
 ```
 
+## Finally
+
+### Contributing
+Feel free to create a fork and submit a pull request if you would like to contribute.
+
+### Bug reports
+Raise an issue on GitHub if you notice something broken.
 
