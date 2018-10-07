@@ -1,6 +1,6 @@
 <?php
 
-namespace hackerESQ\Settings\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,8 +21,7 @@ class SettingController extends Controller
               'firm_name'=>'string',
         ]);
 
-        
-        Settings::set( $request->all() , env('APP_DEBUG') );
+        Settings::set( $request->all() );
 
         return array("message"=>"success");
 

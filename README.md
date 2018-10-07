@@ -6,7 +6,7 @@ Super simple key/value settings for Laravel 5.4+ that natively supports [encrypt
   * [Set new setting](#set-new-setting)
   * [Get all settings](#get-all-settings)
   * [Get single setting](#get-single-setting)
-  * [Get certain setting](#get-certain-setting)
+  * [Get certain setting(via array)](#get-certain-settings)
 * [Encryption](#encryption)
   
   
