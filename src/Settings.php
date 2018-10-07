@@ -69,7 +69,7 @@ class Settings
         }
 
         // ARE WE FORCING? OR SHOULD WE BE SECURE?
-        if ($force) {
+        if (config('settings.force') || $force) {
 
             foreach ($changes as $key => $value) {
 
