@@ -1,5 +1,5 @@
 {
-    "name": "hackeresq/settings",
+    "name": "hackeresq/laravel-settings",
     "description": "Super simple key/value settings for Laravel 5+",
     "keywords": [
         "settings",
