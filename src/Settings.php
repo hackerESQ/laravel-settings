@@ -9,6 +9,8 @@ class Settings
 {
 
     public function resolveCache() {
+
+        // if multi-tenant, resolve cache for requested tenant
         return Cache::rememberForever('settings', function () {
             return DB::table('settings')->pluck('value', 'key')->toArray();
         });
