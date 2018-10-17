@@ -22,7 +22,7 @@ class SettingsServiceProvider extends ServiceProvider {
          * Publish settings config file
          */
         $this->publishes([
-            __DIR__ . '/../../config/settings.php' => config_path('settings.php'),
+            __DIR__ . '/../config/settings.php' => config_path('settings.php'),
         ], 'config');
 
 
@@ -32,7 +32,7 @@ class SettingsServiceProvider extends ServiceProvider {
         $timestamp = date('Y_m_d_His', time());
 
         $this->publishes([
-            __DIR__.'/../../database/migrations/create_settings_table.php' => $this->app->databasePath()."/migrations/{$timestamp}_create_settings_table.php",
+            __DIR__.'/../database/migrations/create_settings_table.php' => $this->app->databasePath()."/migrations/{$timestamp}_create_settings_table.php",
         ], 'migrations');
 
     }
