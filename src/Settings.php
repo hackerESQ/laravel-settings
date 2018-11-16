@@ -58,9 +58,6 @@ class Settings
     public function set($changes, bool $force = false)
     {
 
-        // when saving updates back to DB, must save in JSON for contact_types
-        // $json = json_encode(preg_split ('/$\R?^/m', $contact_types));
-
         // DO WE NEED TO ENCRYPT ANYTHING?
         foreach ($changes as $key => $value) {
             if ( in_array($key, config('settings.encrypt') ) && !empty($value) ) {

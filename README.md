@@ -64,9 +64,14 @@ Settings::set(['firm_name'=>'new'],true);
 If you will be setting variables in the local or development environment and always want to force set settings in that environment, you can do something like this:
 
 ```php
-Settings::set( ['firm_name'=>'new'] , env('APP_ENV') == 'local' ? true : false );
+Settings::set( ['firm_name'=>'new'] , config('app.env') == 'local' ? true : false );
 ```
 
+Alternatively, you can disable this functionality completely in the package's config by setting the `force` parameter to true:
+
+```php
+'force' => true,    
+```
 
 ### Get all settings
 If no parameters are passed to the "get" method, it will return an array of all settings:
