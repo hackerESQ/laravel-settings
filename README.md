@@ -8,8 +8,8 @@ Super simple key/value settings for Laravel 5.4+ that natively supports [encrypt
   * [Get single setting](#get-single-setting)
   * [Get certain setting(via array)](#get-certain-settings)
 * [Encryption](#encryption)
-  
-  
+
+
 ## Installation
 This package can be used in Laravel 5.4 or higher.
 
@@ -89,6 +89,13 @@ You can also return a list of specified settings by passing an array of setting 
 Settings::get(['firm_name','contact_types']);
 ```
 
+### Check if a setting is set
+Sometimes you can't know if a setting has been set or not (mainly boolean settings that will return false if the setting doesn't exists and also if the setting has been set to false).
+
+```php
+Settings::has(['firm_name']);
+```
+
 ## Encryption
 
 You can define keys that should be encrypted automatically within the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file. To do so, add the keys as such:
@@ -107,4 +114,3 @@ Feel free to create a fork and submit a pull request if you would like to contri
 
 ### Bug reports
 Raise an issue on GitHub if you notice something broken.
-
