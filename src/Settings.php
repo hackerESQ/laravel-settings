@@ -55,18 +55,6 @@ class Settings
         
     }
 
-    /**
-     * Check if a given key exists
-     * @param  string  $key
-     * @return boolean
-     */
-    public function has($key)
-    {
-        $settings = $this->decryptHandler($this->resolveCache());
-
-        return array_key_exists($key, $settings);
-    }
-
     public function set($changes, bool $force = false)
     {
 
