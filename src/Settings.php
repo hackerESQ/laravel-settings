@@ -8,14 +8,24 @@ use Cache;
 class Settings
 {
 
-    public function resolveCache($tenant = '') {
+    /**
+     * Get settings from the cache
+     * @param string $tenant
+     * @return array
+     */
+    public function resolveCache($tenant) {
 
         // if multi-tenant, resolve cache for requested tenant
-        return Cache::rememberForever('settings'.$tenant, function ($tenant = '') {
+        return Cache::rememberForever('settings'.$tenant, function () use ($tenant) {
             return DB::table('settings')->where('tenant','=',$tenant)->pluck('value', 'key')->toArray();
         });
     }
 
+    /**
+     * Decrypt any settings that need to be decrypted
+     * @param array $settings
+     * @return array
+     */
     public function decryptHandler($settings) {
 
         // DO WE NEED TO DECRYPT ANYTHING?
@@ -29,8 +39,17 @@ class Settings
 
     }
 
-    public function get($key = NULL, $tenant = '')
+    /**
+     * Get value of settings by key
+     * @param  string  $key
+     * @param  array  $options
+     * @return mixed string|boolean
+     */
+    public function get($key = NULL, $options = [])
     {
+        // is this multitenant? 
+        $tenant = isset($options['tenant']) ? $options['tenant'] : '';
+
         $settings = $this->decryptHandler($this->resolveCache($tenant));
 
         // no key passed, assuming get all settings
@@ -57,15 +76,41 @@ class Settings
         
     }
 
-    public function set($changes, $tenant = '', bool $force = false)
+    /**
+     * Check if a given key exists
+     * @param  string  $key
+     * @param  array  $options
+     * @return boolean
+     */
+    public function has($key, $options = [])
     {
 
-        // when saving updates back to DB, must save in JSON for contact_types
-        // $json = json_encode(preg_split ('/$\R?^/m', $contact_types));
+        // is this multitenant? 
+        $tenant = isset($options['tenant']) ? $options['tenant'] : '';
+        
+        $settings = $this->decryptHandler($this->resolveCache($tenant));
+
+        return array_key_exists($key, $settings);
+    }
+
+    /**
+     * Set value of setting
+     * @param  array  $changes
+     * @param  array  $options
+     * @return boolean
+     */
+    public function set($changes, $options = [])
+    {
+
+        $force = isset($options['force']) ? $options['force'] : false;
+        $encrypt = isset($options['encrypt']) ? $options['encrypt'] : false;
+
+        // is this multitenant? 
+        $tenant = isset($options['tenant']) ? $options['tenant'] : '';
 
         // DO WE NEED TO ENCRYPT ANYTHING?
         foreach ($changes as $key => $value) {
-            if ( in_array($key, config('settings.encrypt') ) && !empty($value) ) {
+            if ( ( in_array($key, config('settings.encrypt') ) || $encrypt ) && !empty($value)) {
                 array_set($changes, $key, encrypt($value));
             }
         }
@@ -89,7 +134,7 @@ class Settings
 
         } else {
 
-            $settings = $this->resolveCache();
+            $settings = $this->resolveCache($tenant);
 
             // array_only() - will return only the specified key-value pairs from the given array
                 // array_keys() - will return all the keys or a subset of the keys of an array
