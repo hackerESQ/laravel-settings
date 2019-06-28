@@ -15,7 +15,8 @@ class UpdateSettingsTable extends Migration
     {
         Schema::table('settings', function (Blueprint $table) {
             $table->string('key')->index()->change();
-            $table->unsignedInteger('tenant')->nullable()->index();
+            $table->string('tenant')->nullable()->index();
+            $table->unique('key', 'tenant');
         });
     }
 
