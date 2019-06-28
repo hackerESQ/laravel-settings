@@ -27,21 +27,7 @@ return [
     |
     */
 
-    'force' => false,    
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Multi-tenant environment
-    |--------------------------------------------------------------------------
-    |
-    | This option allows you to use settings in a multi-tenant environment. You 
-    | will be required you to pass a tenant id when setting and getting any
-    | settings.
-    |
-    */
-
-    'multi_tenant' => false,    
+    'force' => false,  
 
 
 ];
