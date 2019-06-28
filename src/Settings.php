@@ -8,11 +8,11 @@ use Cache;
 class Settings
 {
 
-    public function resolveCache($tenant = NULL) {
+    public function resolveCache($tenant = '') {
 
         // if multi-tenant, resolve cache for requested tenant
-        return Cache::rememberForever('settings', function () {
-            return DB::table('settings')->where('tenant',$tenant)->pluck('value', 'key')->toArray();
+        return Cache::rememberForever('settings'.$tenant, function ($tenant = '') {
+            return DB::table('settings')->where('tenant','=',$tenant)->pluck('value', 'key')->toArray();
         });
     }
 
@@ -29,7 +29,7 @@ class Settings
 
     }
 
-    public function get($key = NULL, $tenant = NULL)
+    public function get($key = NULL, $tenant = '')
     {
         $settings = $this->decryptHandler($this->resolveCache($tenant));
 
@@ -57,7 +57,7 @@ class Settings
         
     }
 
-    public function set($changes, $tenant = NULL, bool $force = false)
+    public function set($changes, $tenant = '', bool $force = false)
     {
 
         // when saving updates back to DB, must save in JSON for contact_types
@@ -103,10 +103,11 @@ class Settings
             }
         }
 
-        Cache::forget('settings');
+        Cache::forget('settings'.$tenant);
 
         return true;
 
     }
 
 }
+

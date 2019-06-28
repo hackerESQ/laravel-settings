@@ -17,8 +17,9 @@ class UpdateSettingsTable extends Migration
             $table->string('key')->index()->change();
             $table->string('tenant')->nullable()->index();
             $table->dropPrimary('key');
-            $table->primary('key', 'tenant');
-            $table->unique('key', 'tenant');
+            $table->dropUnique('settings_key_unique');
+            $table->primary(['key', 'tenant']);
+            $table->unique(['key', 'tenant']);
         });
     }
 
