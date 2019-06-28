@@ -8,11 +8,11 @@ use Cache;
 class Settings
 {
 
-    public function resolveCache() {
+    public function resolveCache($tenant = NULL) {
 
         // if multi-tenant, resolve cache for requested tenant
         return Cache::rememberForever('settings', function () {
-            return DB::table('settings')->pluck('value', 'key')->toArray();
+            return DB::table('settings')->where('tenant',$tenant)->pluck('value', 'key')->toArray();
         });
     }
 
@@ -29,9 +29,9 @@ class Settings
 
     }
 
-    public function get($key = NULL)
+    public function get($key = NULL, $tenant = NULL)
     {
-        $settings = $this->decryptHandler($this->resolveCache());
+        $settings = $this->decryptHandler($this->resolveCache($tenant));
 
         // no key passed, assuming get all settings
         if ($key == NULL) {
@@ -57,7 +57,7 @@ class Settings
         
     }
 
-    public function set($changes, bool $force = false)
+    public function set($changes, $tenant = NULL, bool $force = false)
     {
 
         // when saving updates back to DB, must save in JSON for contact_types
@@ -75,8 +75,16 @@ class Settings
 
             foreach ($changes as $key => $value) {
 
-                DB::table('settings')->where('key', '=', $key)->delete();    
-                DB::table('settings')->insert(['key'=>$key,'value'=>$value]); 
+                DB::table('settings')->where([
+                    ['key', '=', $key],
+                    ['tenant', '=', $tenant]
+                    ])->delete();    
+
+                DB::table('settings')->insert([
+                    'key'=>$key,
+                    'value'=>$value,
+                    'tenant'=>$tenant
+                ]); 
             }
 
         } else {
@@ -88,7 +96,10 @@ class Settings
                     // this passes array_keys() to array_only() to give current/valid settings only
                         //checks and see if passed settings are  valid options
             foreach (array_only($changes, array_keys($settings)) as $key => $value) {
-                DB::table('settings')->where('key', $key)->update(['value'=>$value]); 
+                DB::table('settings')->where([
+                    ['key', '=', $key],
+                    ['tenant', '=', $tenant]
+                ])->update(['value'=>$value]); 
             }
         }
 
