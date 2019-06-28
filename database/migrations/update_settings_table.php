@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class UpdateSettingsTable extends Migration
 {
     /**
-     * Run the migration to add tenant column and make key non-unique
+     * Add tenant column and make key non-unique
      *
      * @return void
      */
