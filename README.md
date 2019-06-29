@@ -122,6 +122,8 @@ This package can be used in a multi-tenant environment. The [set](#set-new-setti
 Settings::get('firm_name',['tenant'=>'example-tenant']);
 ```
 
+The 'tenant' attribute passed in an array to the second parameter above can be alphanumeric. Although 'tenant' is not strictly typed, and will be passed to the database query as a string. 
+
 If you are using the [get](#get-all-settings) method without a first parameter (which will returns all settings), you must pass 'null' as the first parameter:
 
 ```php
