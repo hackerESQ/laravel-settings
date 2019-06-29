@@ -31,5 +31,8 @@
                 "Settings": "hackerESQ\\Settings\\Facades\\Settings"
             }
         }
+    },
+    "scripts": {
+        "post-install-cmd": [],
     }
 }

@@ -13,17 +13,14 @@ class UpdateSettingsTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('settings')) {
+        if (!Schema::hasColumn('settings', 'tenant')) {
             Schema::table('settings', function (Blueprint $table) {
 
                 $table->string('key')->index()->change();
-
-                if (!Schema::hasColumn('settings', 'tenant')) {
-                    $table->string('tenant')->nullable()->index();
-                }
-
+                $table->string('tenant')->nullable()->index();
                 $table->dropPrimary('key');
                 $table->dropUnique('settings_key_unique');
+                
                 $table->primary(['key', 'tenant']);
                 $table->unique(['key', 'tenant']);
                 
