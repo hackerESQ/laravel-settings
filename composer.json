@@ -33,6 +33,8 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [],
+        "post-install-cmd": [
+            ""
+        ],
     }
 }

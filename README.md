@@ -121,6 +121,12 @@ This package can be used in a multi-tenant environment. The [set](#set-new-setti
 Settings::get('firm_name',['tenant'=>'example-tenant']);
 ```
 
+If you are using the [get](#get-all-settings) method without a first parameter (which will returns all settings), you must pass 'null' as the first parameter:
+
+```php
+Settings::get(null,['tenant'=>'example-tenant']);
+```
+
 ## Finally
 
 ### Contributing
