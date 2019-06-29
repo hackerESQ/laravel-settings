@@ -30,4 +30,18 @@ return [
     'force' => false,  
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Cache settings
+    |--------------------------------------------------------------------------
+    |
+    | This option controls whether key/values are cached or pulled directly
+    | from the database. If this setting is true, cache is enabled.
+    | If this setting is false, caching is disabled.
+    |
+    */
+
+    'cache' => true,  
+
+
 ];

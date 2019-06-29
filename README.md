@@ -10,6 +10,7 @@ Super simple key/value settings for Laravel 5.4+ that natively supports [encrypt
   * [Check if a setting is set](#check-if-a-setting-is-set)
 * [Encryption](#encryption)
 * [Multi-tenancy](#multi-tenancy)
+* [Disable cache](#disable-cache)
   
   
 ## Installation
@@ -125,6 +126,13 @@ If you are using the [get](#get-all-settings) method without a first parameter (
 
 ```php
 Settings::get(null,['tenant'=>'example-tenant']);
+```
+
+## Disable cache
+Depending on your use case, you may like to disable the cache (enabled by default). Disable the cache by modifying the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file as such:
+
+```php
+'cache' => false
 ```
 
 ## Finally

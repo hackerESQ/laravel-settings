@@ -15,10 +15,14 @@ class Settings
      */
     public function resolveCache($tenant) {
 
-        // if multi-tenant, resolve cache for requested tenant
-        return Cache::rememberForever('settings'.$tenant, function () use ($tenant) {
+        if (config('settings.cache')) {
+            return Cache::rememberForever('settings'.$tenant, function () use ($tenant) {
+                return DB::table('settings')->where('tenant','=',$tenant)->pluck('value', 'key')->toArray();
+            });
+        } else {
             return DB::table('settings')->where('tenant','=',$tenant)->pluck('value', 'key')->toArray();
-        });
+        }
+        
     }
 
     /**
@@ -148,7 +152,9 @@ class Settings
             }
         }
 
-        Cache::forget('settings'.$tenant);
+        if (config('settings.cache')) {
+            Cache::forget('settings'.$tenant);
+        }
 
         return true;
 
