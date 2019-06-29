@@ -33,6 +33,7 @@ class SettingsServiceProvider extends ServiceProvider {
 
         $this->publishes([
             __DIR__.'/../database/migrations/create_settings_table.php' => $this->app->databasePath()."/migrations/{$timestamp}_create_settings_table.php",
+            __DIR__.'/../database/migrations/update_settings_table.php' => $this->app->databasePath()."/migrations/{$timestamp}_update_settings_table.php",
         ], 'migrations');
 
     }

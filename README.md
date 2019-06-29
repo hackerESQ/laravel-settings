@@ -1,5 +1,5 @@
 # Settings
-Super simple key/value settings for Laravel 5.4+ that natively supports [encryption](#encryption).
+Super simple key/value settings for Laravel 5.4+ that natively supports [encryption](#encryption) and [multi-tenancy](#multi-tenancy).
 
 * [Installation](#installation)
 * [Usage](#usage)
@@ -9,8 +9,10 @@ Super simple key/value settings for Laravel 5.4+ that natively supports [encrypt
   * [Get certain setting (via array)](#get-certain-settings)
   * [Check if a setting is set](#check-if-a-setting-is-set)
 * [Encryption](#encryption)
-
-
+* [Multi-tenancy](#multi-tenancy)
+* [Disable cache](#disable-cache)
+  
+  
 ## Installation
 This package can be used in Laravel 5.4 or higher.
 
@@ -37,13 +39,13 @@ The same is true for the alias. If you're running Laravel 5.5+, you can also ski
 ];
 ```
 
-You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) files and migrate the new settings table with:
+You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) files, then migrate the new settings table all in one go using:
 
 ```bash
-php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider" && php artisan migrate
+php artisan vendor:publish --tag=migrations && php artisan vendor:publish --tag=config && php artisan migrate
 ```
 
-<b>Success!</b> Settings is now installed!
+<b>Success!</b> laravel-settings is now installed!
 
 ## Usage
 
@@ -56,22 +58,22 @@ You can set new settings using the "set" method, which accepts an associative ar
 Settings::set(['firm_name'=>'new']);
 ```
 
-<b><mark>For security reasons,</mark> this will first check to see if such a setting key exists in your "settings" table or in the cache. If a key does exist, it will set it. If the key does not exist, <i>it will disregard the change.</i> </b> If you want to force set a setting, you can pass true for the second parameter of the set method:
+<b><mark>For security reasons,</mark> this will first check to see if such a setting key exists in your "settings" table or in the cache. If such a key exists, it will update the key to the new value. If the key does not exist, <i>it will disregard the change.</i> </b> If you wish to force set a new setting, you should pass an array for the second parameter like so:
 
 ```php
-Settings::set(['firm_name'=>'new'],true);
+Settings::set(['firm_name'=>'new'],['force'=>true]);
+```
+
+Alternatively, you can globally override this security functionality within the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file for this package:
+
+```php
+'force' => true
 ```
 
 If you will be setting variables in the local or development environment and always want to force set settings in that environment, you can do something like this:
 
 ```php
-Settings::set( ['firm_name'=>'new'] , config('app.env') == 'local' ? true : false );
-```
-
-Alternatively, you can disable this functionality completely in the package's config by setting the `force` parameter to true:
-
-```php
-'force' => true,    
+'force' => env('APP_ENV') == 'local' ? true : false;
 ```
 
 ### Get all settings
@@ -96,10 +98,10 @@ Settings::get(['firm_name','contact_types']);
 ```
 
 ### Check if a setting is set
-Sometimes you can't know if a setting has been set or not (mainly boolean settings that will return false if the setting doesn't exists and also if the setting has been set to false).
+Sometimes you can't know if a setting has been set or not (i.e. boolean settings that will return false if the setting does not exist, but also if the setting has been set to false).
 
 ```php
-Settings::has(['firm_name']);
+Settings::has(['dark_theme']);
 ```
 
 ## Encryption
@@ -113,6 +115,26 @@ You can define keys that should be encrypted automatically within the [config/se
     ],
 ```
 
+## Multi-tenancy
+This package can be used in a multi-tenant environment. The [set](#set-new-setting), [get](#get-all-settings), and [has](#check-if-a-setting-is-set) methods all accept an array as the second parameter. This array can contain a 'tenant' attribute, like this:
+
+```php
+Settings::get('firm_name',['tenant'=>'example-tenant']);
+```
+
+If you are using the [get](#get-all-settings) method without a first parameter (which will returns all settings), you must pass 'null' as the first parameter:
+
+```php
+Settings::get(null,['tenant'=>'example-tenant']);
+```
+
+## Disable cache
+Depending on your use case, you may like to disable the cache (enabled by default). Disable the cache by modifying the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file as such:
+
+```php
+'cache' => false
+```
+
 ## Finally
 
 ### Contributing
@@ -120,3 +142,4 @@ Feel free to create a fork and submit a pull request if you would like to contri
 
 ### Bug reports
 Raise an issue on GitHub if you notice something broken.
+
