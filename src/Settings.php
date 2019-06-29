@@ -28,10 +28,10 @@ class Settings
 
         if (config('settings.cache')) {
             return Cache::rememberForever('settings'.$tenant, function () use ($tenant) {
-                return resolveDB($tenant);
+                return $this->resolveDB($tenant);
             });
         } else {
-            return resolveDB($tenant);
+            return $this->resolveDB($tenant);
         }
         
     }
