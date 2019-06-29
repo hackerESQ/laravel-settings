@@ -7,6 +7,7 @@ Super simple key/value settings for Laravel 5.4+ that natively supports [encrypt
   * [Get all settings](#get-all-settings)
   * [Get single setting](#get-single-setting)
   * [Get certain setting (via array)](#get-certain-settings)
+  * [Check if a setting is set](#check-if-a-setting-is-set)
 * [Encryption](#encryption)
   
   
@@ -87,6 +88,13 @@ You can also return a list of specified settings by passing an array of setting 
 
 ```php
 Settings::get(['firm_name','contact_types']);
+```
+
+### Check if a setting is set
+Sometimes you can't know if a setting has been set or not (mainly boolean settings that will return false if the setting doesn't exists and also if the setting has been set to false).
+
+```php
+Settings::has(['firm_name']);
 ```
 
 ## Encryption
