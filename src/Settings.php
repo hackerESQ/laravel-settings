@@ -9,6 +9,17 @@ class Settings
 {
 
     /**
+     * Get settings from the database
+     * @param string $tenant
+     * @return array
+     */
+    public function resolveDB($tenant) {
+
+        return DB::table('settings')->where('tenant','=',$tenant)->pluck('value', 'key')->toArray();
+        
+    }
+
+    /**
      * Get settings from the cache
      * @param string $tenant
      * @return array
@@ -17,10 +28,10 @@ class Settings
 
         if (config('settings.cache')) {
             return Cache::rememberForever('settings'.$tenant, function () use ($tenant) {
-                return DB::table('settings')->where('tenant','=',$tenant)->pluck('value', 'key')->toArray();
+                return resolveDB($tenant);
             });
         } else {
-            return DB::table('settings')->where('tenant','=',$tenant)->pluck('value', 'key')->toArray();
+            return resolveDB($tenant);
         }
         
     }
