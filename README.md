@@ -42,7 +42,7 @@ The same is true for the alias. If you're running Laravel 5.5+, you can also ski
 You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) files, then migrate the new settings table all in one go using:
 
 ```bash
-php artisan vendor:publish --tag=migrations && php artisan vendor:publish --tag=config && php artisan migrate
+php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider" --tag=migrations && php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider" --tag=config && php artisan migrate
 ```
 
 <b>Success!</b> laravel-settings is now installed!
