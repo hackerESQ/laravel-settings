@@ -5,8 +5,9 @@ namespace hackerESQ\Settings;
 use DB;
 use Cache;
 
-class Settings
-{
+class Settings {
+
+    const DEFAULT_TENANT = 'main';
 
     /**
      * Get settings from the database
@@ -14,9 +15,7 @@ class Settings
      * @return array
      */
     public function resolveDB($tenant) {
-
-        return DB::table('settings')->where('tenant','=',$tenant)->pluck('value', 'key')->toArray();
-        
+        return DB::table('settings')->where('tenant', '=', $tenant)->pluck('value', 'key')->toArray();
     }
 
     /**
@@ -24,16 +23,14 @@ class Settings
      * @param string $tenant
      * @return array
      */
-    public function resolveCache($tenant) {
-
+    public function resolveCache($tenant = self::DEFAULT_TENANT) {
         if (config('settings.cache')) {
-            return Cache::rememberForever('settings'.$tenant, function () use ($tenant) {
-                return $this->resolveDB($tenant);
-            });
+            return Cache::rememberForever('settings' . $tenant, function () use ($tenant) {
+                        return $this->resolveDB($tenant);
+                    });
         } else {
             return $this->resolveDB($tenant);
         }
-        
     }
 
     /**
@@ -45,13 +42,12 @@ class Settings
 
         // DO WE NEED TO DECRYPT ANYTHING?
         foreach ($settings as $key => $value) {
-            if ( in_array( $key, config('settings.encrypt',[]) ) && !empty($value) ) {
+            if (in_array($key, config('settings.encrypt', [])) && !empty($value)) {
                 array_set($settings, $key, decrypt($settings[$key]));
             }
         }
 
         return $settings;
-
     }
 
     /**
@@ -60,19 +56,18 @@ class Settings
      * @param  array  $options
      * @return mixed string|boolean
      */
-    public function get($key = NULL, $options = [])
-    {
+    public function get($key = NULL, $options = []) {
         // is this multitenant? 
-        $tenant = isset($options['tenant']) ? $options['tenant'] : '';
+        $tenant = isset($options['tenant']) ? $options['tenant'] : self::DEFAULT_TENANT;
 
         $settings = $this->decryptHandler($this->resolveCache($tenant));
 
         // no key passed, assuming get all settings
         if ($key == NULL) {
-            
+
             return $settings;
         }
-        
+
         // array of keys passed, return those settings only
         if (is_array($key)) {
             foreach ($key as $key) {
@@ -84,11 +79,10 @@ class Settings
         // single key passed, return that setting only
         if (array_key_exists($key, $settings)) {
 
-            return $settings[$key]; 
-        } 
+            return $settings[$key];
+        }
 
         return false;
-        
     }
 
     /**
@@ -97,12 +91,10 @@ class Settings
      * @param  array  $options
      * @return boolean
      */
-    public function has($key, $options = [])
-    {
-
+    public function has($key, $options = []) {
         // is this multitenant? 
         $tenant = isset($options['tenant']) ? $options['tenant'] : '';
-        
+
         $settings = $this->decryptHandler($this->resolveCache($tenant));
 
         return array_key_exists($key, $settings);
@@ -114,9 +106,7 @@ class Settings
      * @param  array  $options
      * @return boolean
      */
-    public function set($changes, $options = [])
-    {
-
+    public function set($changes, $options = []) {
         $force = isset($options['force']) ? $options['force'] : false;
         $encrypt = isset($options['encrypt']) ? $options['encrypt'] : false;
 
@@ -125,7 +115,7 @@ class Settings
 
         // DO WE NEED TO ENCRYPT ANYTHING?
         foreach ($changes as $key => $value) {
-            if ( ( in_array($key, config('settings.encrypt') ) || $encrypt ) && !empty($value)) {
+            if (( in_array($key, config('settings.encrypt')) || $encrypt ) && !empty($value)) {
                 array_set($changes, $key, encrypt($value));
             }
         }
@@ -138,38 +128,34 @@ class Settings
                 DB::table('settings')->where([
                     ['key', '=', $key],
                     ['tenant', '=', $tenant]
-                    ])->delete();    
+                ])->delete();
 
                 DB::table('settings')->insert([
-                    'key'=>$key,
-                    'value'=>$value,
-                    'tenant'=>$tenant
-                ]); 
+                    'key' => $key,
+                    'value' => $value,
+                    'tenant' => $tenant
+                ]);
             }
-
         } else {
-
             $settings = $this->resolveCache($tenant);
 
             // array_only() - will return only the specified key-value pairs from the given array
-                // array_keys() - will return all the keys or a subset of the keys of an array
-                    // this passes array_keys() to array_only() to give current/valid settings only
-                        //checks and see if passed settings are  valid options
+            // array_keys() - will return all the keys or a subset of the keys of an array
+            // this passes array_keys() to array_only() to give current/valid settings only
+            //checks and see if passed settings are  valid options
             foreach (array_only($changes, array_keys($settings)) as $key => $value) {
                 DB::table('settings')->where([
                     ['key', '=', $key],
                     ['tenant', '=', $tenant]
-                ])->update(['value'=>$value]); 
+                ])->update(['value' => $value]);
             }
         }
 
         if (config('settings.cache')) {
-            Cache::forget('settings'.$tenant);
+            Cache::forget('settings' . $tenant);
         }
 
         return true;
-
     }
 
 }
-

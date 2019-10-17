@@ -1,7 +1,9 @@
+
 # Settings
 Super simple key/value settings for Laravel 5.4+ that natively supports [encryption](#encryption) and [multi-tenancy](#multi-tenancy).
 
 * [Installation](#installation)
+* [Upgrading](#upgrading)
 * [Usage](#usage)
   * [Set new setting](#set-new-setting)
   * [Get all settings](#get-all-settings)
@@ -38,7 +40,7 @@ The same is true for the alias. If you're running Laravel 5.5+, you can also ski
     'Settings' => hackerESQ\Settings\Facades\Settings::class,
 ];
 ```
-
+#### Migrating
 You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) files, then migrate the new settings table all in one go using:
 
 ```bash
@@ -46,6 +48,11 @@ php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvide
 ```
 
 <b>Success!</b> laravel-settings is now installed!
+
+## Upgrading
+We may have updated config files or migrations, so see the [Migrating](#migrating) section.
+
+Also note that there is a breaking change from v2.1.0 to v3.0.0 since we will now start using timestamped migration file names, so you'll need to manually handling the migration that got renamed and edited (renamed: database/migrations/update_settings_table.php -> database/migrations/2019_10_17_201625_update_settings_table.php).
 
 ## Usage
 
