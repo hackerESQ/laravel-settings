@@ -52,7 +52,7 @@ php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvide
 ## Upgrading
 We may have updated config files or migrations, so see the [Migrating](#migrating) section.
 
-Also note that there is a breaking change from v2.1.0 to v3.0.0 since we will now start using timestamped migration file names, so you'll need to manually handling the migration that got renamed and edited (renamed: database/migrations/update_settings_table.php -> database/migrations/2019_10_17_201625_update_settings_table.php).
+Also note that there have been breaking changes recently (e.g. from v2.1.0 to v3.0.0), so you may need to manually adjust the migrations.
 
 ## Usage
 
