@@ -1,7 +1,7 @@
 {
     "name": "hackeresq/laravel-settings",
     "description": "Super simple key/value settings for Laravel 5+",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "keywords": [
         "settings",
         "laravel",
@@ -17,7 +17,7 @@
     },
     "require": {
         "php" : ">=7.0",
-        "laravel/framework": "~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0",
+        "laravel/framework": "~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
         "doctrine/dbal": "^2.8"
     },
     "require-dev": {
