@@ -13,19 +13,18 @@ class UpdateSettingsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasColumn('settings', 'tenant')) {
-            Schema::table('settings', function (Blueprint $table) {
+        Schema::table('settings', function (Blueprint $table) {
 
-                $table->string('key')->index()->change();
-                $table->string('tenant')->nullable()->index();
-                $table->dropPrimary('key');
-                $table->dropUnique('settings_key_unique');
-                
-                $table->primary(['key', 'tenant']);
-                $table->unique(['key', 'tenant']);
-                
-            });
-        }
+            $table->string('key')->index()->change();
+            $table->string('tenant')->nullable();
+            $table->dropPrimary('key');
+            $table->dropUnique('settings_key_unique');
+            
+            $table->primary(['key', 'tenant']);
+            $table->unique(['key', 'tenant']);
+            
+        });
+     
     }
 
 
@@ -37,6 +36,6 @@ class UpdateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        //
     }
 }
