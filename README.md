@@ -144,6 +144,8 @@ You may wish to hide specific settings (like API keys or other sensitive user da
     ],
 ```
 
+Once these are set, they must be specifically requested using the `get()` method. In other words, this acts like the `$hidden` attribute on Laravel Eloquent models.
+
 ## Finally
 
 ### Contributing
