@@ -133,6 +133,17 @@ Depending on your use case, you may like to disable the cache (enabled by defaul
 'cache' => false
 ```
 
+## Hidden settings
+
+You may wish to hide specific settings (like API keys or other sensitive user data) from inadvertent disclosure. You can set these settings in the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file. To do so, add the keys as such:
+
+```php
+'hidden' => [
+        'twitter_client_secret',
+        'super_secret_password',
+    ],
+```
+
 ## Finally
 
 ### Contributing
