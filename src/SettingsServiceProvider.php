@@ -3,8 +3,6 @@
 namespace hackerESQ\Settings;
 
 use Illuminate\Support\ServiceProvider;
-use Route;
-use Illuminate\Http\Request;
 
 class SettingsServiceProvider extends ServiceProvider {
 
@@ -45,14 +43,9 @@ class SettingsServiceProvider extends ServiceProvider {
      */
 	public function register () {
 
-
 		// bind 'settings' to the class named 'settings' in the IOC container
 		$this->app->singleton('settings','hackerESQ\Settings\Settings');
 
-
-
 	}
-
-
 
 }
