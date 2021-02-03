@@ -1,7 +1,7 @@
 {
     "name": "hackeresq/laravel-settings",
     "description": "Super simple key/value settings for Laravel 5+",
-    "version": "3.0.1",
+    "version": "3.0.3",
     "keywords": [
         "settings",
         "laravel",
