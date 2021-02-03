@@ -146,6 +146,12 @@ You may wish to hide specific settings (like API keys or other sensitive user da
 
 Once these are set, they must be specifically requested using the `get()` method. In other words, this acts like the `$hidden` attribute on Laravel Eloquent models.
 
+In addition to hiding specific settings, you can opt to hide ALL the settings (unless specifically requested, of course). To do this, you can use a wildcard:
+
+```php
+'hidden' => ['*'],
+```
+
 ## Finally
 
 ### Contributing

@@ -73,7 +73,10 @@ class Settings
         $settings = $this->decryptHandler($this->resolveCache());
 
         // no key passed, assuming get all settings
-        if ($key == NULL) return Arr::except($settings,config('settings.hidden',[]));
+        if ($key == NULL) 
+            return (config('settings.hidden',[]) == ['*']) ? // are we hiding everything?
+                    [] : // then return nothing.
+                    Arr::except($settings,config('settings.hidden',[])); // else, return everything else
         
         // array of keys passed, return those settings only
         if (is_array($key)) {
