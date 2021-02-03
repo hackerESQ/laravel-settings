@@ -78,7 +78,7 @@ class Settings
         // array of keys passed, return those settings only
         if (is_array($key)) {
             foreach ($key as $key) {
-                $result[] = $settings[$key];
+                $result[$key] = $settings[$key];
             }
             return $result;
         }
