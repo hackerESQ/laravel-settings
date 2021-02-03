@@ -43,5 +43,18 @@ return [
 
     'cache' => true,  
 
+    /*
+    |--------------------------------------------------------------------------
+    | Hidden settings
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the settings that are hidden when using the get() 
+    | method without any specific settings. This protects sensitive data
+    | like API keys or other high-value user data.
+    |
+    */
+
+    'hidden' => [],
+
 
 ];

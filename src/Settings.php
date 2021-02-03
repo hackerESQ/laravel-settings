@@ -37,7 +37,7 @@ class Settings
      */
     public function resolveCache() 
     {
-        if (config('settings.cache')) {
+        if (config('settings.cache',true)) {
             return Cache::rememberForever('settings'.$this->tenant, function () {
                 return $this->resolveDB();
             });
@@ -73,7 +73,7 @@ class Settings
         $settings = $this->decryptHandler($this->resolveCache());
 
         // no key passed, assuming get all settings
-        if ($key == NULL) return $settings;
+        if ($key == NULL) return Arr::except($settings,config('settings.hidden',[]));
         
         // array of keys passed, return those settings only
         if (is_array($key)) {
@@ -117,13 +117,13 @@ class Settings
 
         // DO WE NEED TO ENCRYPT ANYTHING?
         foreach ($changes as $key => $value) {
-            if ( ( in_array($key, config('settings.encrypt') ) || $encrypt ) && !empty($value)) {
+            if ( ( in_array($key, config('settings.encrypt',[]) ) || $encrypt ) && !empty($value)) {
                 Arr::set($changes, $key, encrypt($value));
             }
         }
 
         // ARE WE FORCING? OR SHOULD WE BE SECURE?
-        if (config('settings.force') || $force) {
+        if (config('settings.force',false) || $force) {
             foreach ($changes as $key => $value) {
                 DB::table('settings')->updateOrInsert([
                     'key'=>$key,
@@ -151,7 +151,7 @@ class Settings
         }
 
         // clear cache
-        if (config('settings.cache')) {
+        if (config('settings.cache',true)) {
             Cache::forget('settings'.$this->tenant);
         }
 
