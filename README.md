@@ -22,24 +22,9 @@ You can install the package via composer:
 composer require hackeresq/laravel-settings
 ```
 
-In Laravel 5.5+ the service provider will automatically get registered and you can skip this step. In older versions of the framework just add the service provider in `config/app.php` file:
+Since Laravel 5.5+, service providers and aliases will automatically get registered and you can skip this step. To use this package with older versions, please use release < 2.0.
 
-```php
-'providers' => [
-    // ...
-    hackerESQ\Settings\SettingsServiceProvider::class,
-];
-```
-The same is true for the alias. If you're running Laravel 5.5+, you can also skip this step. In older versions of the framework just add the alias in `config/app.php` file:
-
-```php
-'aliases' => [
-    // ...
-    'Settings' => hackerESQ\Settings\Facades\Settings::class,
-];
-```
-
-You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) files, then migrate the new settings table all in one go using:
+You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) files, then migrate the new settings table all in one go, using:
 
 ```bash
 php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider" --tag=migrations && php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider" --tag=config && php artisan migrate
@@ -52,13 +37,13 @@ php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvide
 Settings can be accessed using the easy-to-remember Facade, "Settings."
 
 ### Set new setting
-You can set new settings using the "set" method, which accepts an associative array of one or more key/value pairs.
+You can set new settings using the "set" method, which accepts an associative array of one or more key/value pairs. <b><mark>For security reasons,</mark> this will first check to see if such a setting key exists in your "settings" table or in the cache. If such a key exists, it will update the key to the new value. If the key does not exist, <i>it will disregard the change.</i> So, if this is a fresh install, do not expect the following to work:
 
 ```php
 Settings::set(['firm_name'=>'new']);
 ```
 
-<b><mark>For security reasons,</mark> this will first check to see if such a setting key exists in your "settings" table or in the cache. If such a key exists, it will update the key to the new value. If the key does not exist, <i>it will disregard the change.</i> </b> If you wish to force set a new setting, you should pass an array for the second parameter like so:
+</b> If you wish to force set a new setting, you should pass an array for the second parameter like so:
 
 ```php
 Settings::set(['firm_name'=>'new'],['force'=>true]);
@@ -116,19 +101,30 @@ You can define keys that should be encrypted automatically within the [config/se
 ```
 
 ## Multi-tenancy
-This package can be used in a multi-tenant environment. The [set](#set-new-setting), [get](#get-all-settings), and [has](#check-if-a-setting-is-set) methods all accept an array as the second parameter. This array can contain a 'tenant' attribute, like this:
+This package can be used in a multi-tenant environment. The [set](#set-new-setting), [get](#get-all-settings), and [has](#check-if-a-setting-is-set) methods all read an internal 'tenant' attribute that can be set with the `tenant()` method. You can set the 'tenant' attribute by calling the `tenant()` method first, like this:
 
 ```php
-Settings::get('firm_name',['tenant'=>'example-tenant']);
+Settings::tenant('tenant_name')->set(['firm_name'=>'foo bar']);
+
+// returns true (i.e. successfully set `firm name`)
+
 ```
-
-The 'tenant' attribute passed in an array to the second parameter above can be alphanumeric. Although 'tenant' is not strictly typed, and will be passed to the database query as a string. 
-
-If you are using the [get](#get-all-settings) method without a first parameter (which will returns all settings), you must pass 'null' as the first parameter:
 
 ```php
-Settings::get(null,['tenant'=>'example-tenant']);
+Settings::tenant('tenant_name')->get('firm_name');
+
+// returns 'foo bar'
+
 ```
+
+```php
+Settings::tenant('tenant_name')->has('firm_name');
+
+// returns true
+
+```
+
+The 'tenant' attribute passed can be any alphanumeric string. The 'tenant' attribute can also be left blank to have, for example, settings saved to a so-called "central" tenant. Note: the 'tenant' attribute is not strictly typed, and will be passed to the database query as a string. 
 
 ## Disable cache
 Depending on your use case, you may like to disable the cache (enabled by default). Disable the cache by modifying the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file as such:

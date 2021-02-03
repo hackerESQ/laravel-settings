@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Settings;
+use hackerESQ\Settings\Facades\Settings;
 
 class SettingController extends Controller
 {
