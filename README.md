@@ -22,7 +22,7 @@ You can install the package via composer:
 composer require hackeresq/laravel-settings
 ```
 
-Since Laravel 5.5+, service providers and aliases will automatically get registered and you can skip this step. In older versions of the framework just add the service provider in `config/app.php` file:
+Since Laravel 5.5+, service providers and aliases will automatically get registered and you can skip this step. To use this package with older versions, please use release < 2.0.
 
 You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) files, then migrate the new settings table all in one go, using:
 
@@ -37,13 +37,13 @@ php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvide
 Settings can be accessed using the easy-to-remember Facade, "Settings."
 
 ### Set new setting
-You can set new settings using the "set" method, which accepts an associative array of one or more key/value pairs.
+You can set new settings using the "set" method, which accepts an associative array of one or more key/value pairs. <b><mark>For security reasons,</mark> this will first check to see if such a setting key exists in your "settings" table or in the cache. If such a key exists, it will update the key to the new value. If the key does not exist, <i>it will disregard the change.</i> So, if this is a fresh install, do not expect the following to work:
 
 ```php
 Settings::set(['firm_name'=>'new']);
 ```
 
-<b><mark>For security reasons,</mark> this will first check to see if such a setting key exists in your "settings" table or in the cache. If such a key exists, it will update the key to the new value. If the key does not exist, <i>it will disregard the change.</i> </b> If you wish to force set a new setting, you should pass an array for the second parameter like so:
+</b> If you wish to force set a new setting, you should pass an array for the second parameter like so:
 
 ```php
 Settings::set(['firm_name'=>'new'],['force'=>true]);
@@ -101,7 +101,7 @@ You can define keys that should be encrypted automatically within the [config/se
 ```
 
 ## Multi-tenancy
-This package can be used in a multi-tenant environment. The [set](#set-new-setting), [get](#get-all-settings), and [has](#check-if-a-setting-is-set) methods all read an internal 'tenant' attribute that can be set with the `tenant` method. You can set the 'tenant' attribute, like this:
+This package can be used in a multi-tenant environment. The [set](#set-new-setting), [get](#get-all-settings), and [has](#check-if-a-setting-is-set) methods all read an internal 'tenant' attribute that can be set with the `tenant()` method. You can set the 'tenant' attribute by calling the `tenant()` method first, like this:
 
 ```php
 Settings::tenant('tenant_name')->set(['firm_name'=>'foo bar']);
