@@ -11,6 +11,8 @@ Super simple key/value settings for Laravel 5.4+ that natively supports [encrypt
 * [Encryption](#encryption)
 * [Multi-tenancy](#multi-tenancy)
 * [Disable cache](#disable-cache)
+* [Hidden settings](#hidden-settings)
+* [Customize table name](#customize-table-name)
   
   
 ## Installation
@@ -67,6 +69,8 @@ If no parameters are passed to the "get" method, it will return an array of all 
 ```php
 Settings::get();
 ```
+
+You can optionally hide specific settings using the `hidden` config as described [below](#hidden-settings). 
 
 ### Get single setting
 You can return a single setting by passing a single setting key:
