@@ -16,7 +16,7 @@ class Settings
      */
     public function resolveDB() 
     {
-        return DB::table('settings')->where('tenant',$this->tenant)->pluck('value', 'key')->toArray();
+        return DB::table(config('settings.table','settings'))->where('tenant',$this->tenant)->pluck('value', 'key')->toArray();
     }
 
     /**
@@ -128,7 +128,7 @@ class Settings
         // ARE WE FORCING? OR SHOULD WE BE SECURE?
         if (config('settings.force',false) || $force) {
             foreach ($changes as $key => $value) {
-                DB::table('settings')->updateOrInsert([
+                DB::table(config('settings.table','settings'))->updateOrInsert([
                     'key'=>$key,
                     'tenant'=>$this->tenant
                 ],
@@ -146,7 +146,7 @@ class Settings
                     // this passes array_keys() to array_only() to give current/valid settings only
                         //checks and see if passed settings are  valid options
             foreach (Arr::only($changes, array_keys($settings)) as $key => $value) {
-                DB::table('settings')->where([
+                DB::table(config('settings.table','settings'))->where([
                     ['key', '=', $key],
                     ['tenant', '=', $this->tenant]
                 ])->update(['value'=>$value]); 

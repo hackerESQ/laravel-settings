@@ -152,6 +152,16 @@ In addition to hiding specific settings, you can opt to hide ALL the settings (u
 'hidden' => ['*'],
 ```
 
+## Customize table name
+
+For some cases, it may be necessary to customize the name of the table where settings are stored. By default, the migrations that come with this package create a 'settings' table. If, for some reason, it becomes necessary to change the default table, you can set the 'table' option in the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file, like this:
+
+```php
+'table' => 'user_options_table',
+```
+
+This configuration option is not included in the base config file as this is an edge case that is not commonly encountered; but nonetheless a nice convenience to have when it does come up.
+
 ## Finally
 
 ### Contributing
