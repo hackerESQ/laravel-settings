@@ -29,38 +29,34 @@ Since Laravel 5.5+, service providers and aliases will automatically get registe
 You can publish [the migration](https://github.com/hackerESQ/settings/blob/master/database/migrations/create_settings_table.php) and [config](https://github.com/hackerESQ/settings/blob/master/config/settings.php) files, then migrate the new settings table all in one go, using:
 
 ```bash
-php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider" --tag=migrations && php artisan vendor:publish --provider="hackerESQ\Settings\SettingsServiceProvider" --tag=config && php artisan migrate
+php artisan vendor:publish --provider="HackerESQ\Settings\SettingsServiceProvider" --tag=migrations && php artisan vendor:publish --provider="HackerESQ\Settings\SettingsServiceProvider" --tag=config && php artisan migrate
 ```
 
 <b>Success!</b> laravel-settings is now installed!
 
 ## Usage
 
-Settings can be accessed using the easy-to-remember Facade, "Settings."
+Settings can be accessed using the easy-to-remember Facade, `Settings`.
 
 ### Set new setting
-You can set new settings using the "set" method, which accepts an associative array of one or more key/value pairs. <b><mark>For security reasons,</mark> this will first check to see if such a setting key exists in your "settings" table or in the cache. If such a key exists, it will update the key to the new value. If the key does not exist, <i>it will disregard the change.</i> So, if this is a fresh install, do not expect the following to work:
+You can set new settings using the "set" method, which accepts an associative array of one or more key/value pairs. <b><mark>For security reasons,</mark></b> this will first check to see if such a setting key is "fillable," which is a configuration option in the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file. 
+
+If such a key exists in the config, it will update the key to the new value passed. If the key does not exist in the fillable config, <i>it will disregard the change.</i> So, if this is a fresh install, do not expect the following to work:
 
 ```php
 Settings::set(['firm_name'=>'new']);
 ```
 
-</b> If you wish to force set a new setting, you should pass an array for the second parameter like so:
+It will not set the new setting until you have either set the fillable fields in the config, or you have opted to force the setting. If you wish to force set a new setting, you should use the `force()` method before calling the `set()` method:
 
 ```php
-Settings::set(['firm_name'=>'new'],['force'=>true]);
+Settings::force()->set(['firm_name'=>'new']);
 ```
 
-Alternatively, you can globally override this security functionality within the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file for this package:
+As of version 3.0.5, the global override for forcing settings has been removed from the config file for this package. Instead, you can use a wildcard for the fillable property, like this:
 
 ```php
-'force' => true
-```
-
-If you will be setting variables in the local or development environment and always want to force set settings in that environment, you can do something like this:
-
-```php
-'force' => env('APP_ENV') == 'local' ? true : false;
+'fillable' => ['*']
 ```
 
 ### Get all settings
@@ -167,10 +163,11 @@ For some cases, it may be necessary to customize the name of the table where set
 This configuration option is not included in the base config file as this is an edge case that is not commonly encountered; but nonetheless a nice convenience to have when it does come up.
 
 ## Finally
+### Testing
+You can run tests with the `composer test` command.
 
 ### Contributing
 Feel free to create a fork and submit a pull request if you would like to contribute.
 
 ### Bug reports
 Raise an issue on GitHub if you notice something broken.
-
