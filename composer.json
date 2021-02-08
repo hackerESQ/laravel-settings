@@ -29,8 +29,7 @@
         "orchestra/testbench": "^6.11"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+        "test": "vendor/bin/phpunit"
     },
     "extra": {
         "laravel": {
