@@ -53,7 +53,7 @@ It will not set the new setting until you have either set the fillable fields in
 Settings::force()->set(['firm_name'=>'new']);
 ```
 
-As of version 3.0.5, the global override for forcing settings has been removed from the config file for this package. Instead, you can use a wildcard for the fillable property, like this:
+As of version 3.0.4, the global override for forcing settings has been removed from the config file for this package. Instead, you can use a wildcard for the fillable property, like this:
 
 ```php
 'fillable' => ['*']
