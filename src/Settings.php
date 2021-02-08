@@ -16,7 +16,7 @@ class Settings
      * @param string $tenant (optional)
      * @return Settings $this
      */
-    public function tenant($tenant='') 
+    public function tenant(string $tenant='') 
     {
         $this->tenant = $tenant;
 
@@ -25,10 +25,10 @@ class Settings
 
     /**
      * Should we force?
-     * @param string $force (optional)
+     * @param bool $force (optional)
      * @return Settings $this
      */
-    public function force($force=true) 
+    public function force(bool $force=true) 
     {
         $this->force = $force;
 
@@ -64,7 +64,7 @@ class Settings
      * @param array $settings
      * @return array
      */
-    private function decryptHandler($settings) 
+    private function decryptHandler(array $settings) 
     {
         // DO WE NEED TO DECRYPT ANYTHING?
         foreach ($settings as $key => $value) {
@@ -80,7 +80,7 @@ class Settings
      * @param array $settings
      * @return array
      */
-    private function encryptHandler($settings) 
+    private function encryptHandler(array $settings) 
     {
         // DO WE NEED TO ENCRYPT ANYTHING?
         foreach ($settings as $key => $value) {
@@ -97,7 +97,7 @@ class Settings
      * @param string $value
      * @return void
      */
-    private function upsert($key, $value)
+    private function upsert(string $key, string $value)
     {
         DB::table(config('settings.table','settings'))->updateOrInsert([
             'key'=>$key,
@@ -112,10 +112,10 @@ class Settings
 
     /**
      * Get value of settings by key
-     * @param string $key 
+     * @param string $key (optional)
      * @return mixed string|boolean
      */
-    public function get($key = NULL)
+    public function get(string $key = NULL)
     {
         $settings = $this->decryptHandler($this->resolveCache());
 
@@ -148,7 +148,7 @@ class Settings
      * @param string|array $needle
      * @return boolean
      */
-    public function has($needle)
+    public function has(mixed $needle)
     {
         $settings = $this->decryptHandler($this->resolveCache());
 
@@ -166,7 +166,7 @@ class Settings
      * @param array $changes
      * @return boolean
      */
-    public function set($changes)
+    public function set(array $changes)
     {
         $changes = $this->encryptHandler($changes);
 
