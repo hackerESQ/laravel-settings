@@ -59,6 +59,8 @@ As of version 3.0.5, the global override for forcing settings has been removed f
 'fillable' => ['*']
 ```
 
+This is more in line with standard Laravel syntax (e.g. for models).
+
 ### Get all settings
 If no parameters are passed to the "get" method, it will return an array of all settings:
 
