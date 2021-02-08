@@ -18,16 +18,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Force save settings
+    | Keys for fillable settings
     |--------------------------------------------------------------------------
     |
-    | This option controls whether settings are forced to be saved. If set to
-    | true, this will save any settings without regard to security (i.e. 
-    | whether the setting has been previously set).
+    | This option defines which settings are considered "safe" and should be
+    | written to the database. You can use ["*"] to make all settings 
+    | fillable. This is unadvisable as any settings will be filled.
     |
     */
 
-    'force' => false,  
+    'fillable' => [],  
 
 
     /*
@@ -50,7 +50,8 @@ return [
     |
     | This option controls the settings that are hidden when using the get() 
     | method without any specific settings. This protects sensitive data
-    | like API keys or other high-value user data.
+    | like API keys or other high-value user data. You can use ["*"]
+    | to make all settings hidden unless specifically requested.
     |
     */
 
