@@ -97,7 +97,7 @@ class Settings
      * @param string $value
      * @return void
      */
-    private function upsert(string $key, string $value)
+    private function upsert(string $key, $value)
     {
         DB::table(config('settings.table','settings'))->updateOrInsert([
             'key'=>$key,
