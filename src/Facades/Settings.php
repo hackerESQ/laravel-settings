@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static object force(bool|null $force = true)
  * @method static object tenant(string|null $tenant = null)
- * @method static mixed get(string|null $key = null)
+ * @method static mixed get(mixed $key = null)
  * @method static boolean has(string|array $needle)
  * @method static boolean set(array $changes)
  *

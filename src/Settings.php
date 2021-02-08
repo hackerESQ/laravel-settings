@@ -112,10 +112,10 @@ class Settings
 
     /**
      * Get value of settings by key
-     * @param string $key (optional)
+     * @param mixed $key (optional)
      * @return mixed string|boolean
      */
-    public function get(string $key = NULL)
+    public function get(mixed $key = NULL)
     {
         $settings = $this->decryptHandler($this->resolveCache());
 

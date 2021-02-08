@@ -125,6 +125,20 @@ class SettingsTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_array_of_settings()
+    {   
+        $this->app['config']->set('settings.fillable', ['foo','bar']);
+
+        Settings::set(['foo'=>'value']);
+        Settings::set(['bar'=>'value']);
+
+        $result = Settings::get(['foo','bar']);
+        
+        $this->assertArrayHasKey('foo',$result, json_encode($result));
+        $this->assertArrayHasKey('bar',$result, json_encode($result));
+    }
+
+    /** @test */
     public function it_can_set_many_settings()
     {   
         $this->app['config']->set('settings.fillable', ['foo','bar']);
