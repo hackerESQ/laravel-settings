@@ -1,7 +1,6 @@
 {
     "name": "hackeresq/laravel-settings",
     "description": "Super simple key/value settings for Laravel 5+",
-    "version": "3.0.4",
     "keywords": [
         "settings",
         "laravel",
@@ -12,7 +11,12 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "hackerESQ\\Settings\\": "src/"
+            "HackerESQ\\Settings\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "HackerESQ\\Settings\\Tests\\": "tests"
         }
     },
     "require": {
@@ -21,15 +25,20 @@
         "doctrine/dbal": "^2.8"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.8.*"
+        "phpunit/phpunit": "^7.0|^8.0|^9.0",
+        "orchestra/testbench": "^6.11"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "hackerESQ\\Settings\\SettingsServiceProvider"
+                "HackerESQ\\Settings\\SettingsServiceProvider"
             ],
             "aliases": {
-                "Settings": "hackerESQ\\Settings\\Facades\\Settings"
+                "Settings": "HackerESQ\\Settings\\Facades\\Settings"
             }
         }
     }
