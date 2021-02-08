@@ -1,7 +1,7 @@
 # Settings
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/appstract/laravel-meta.svg?style=flat-square)](https://packagist.org/packages/hackerESQ/laravel-settings)
-[![Total Downloads](https://img.shields.io/packagist/dt/appstract/laravel-meta.svg?style=flat-square)](https://packagist.org/packages/hackerESQ/laravel-settings)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/hackerESQ/laravel-settings.svg?style=flat-square)](https://packagist.org/packages/hackerESQ/laravel-settings)
+[![Total Downloads](https://img.shields.io/packagist/dt/hackerESQ/laravel-settings.svg?style=flat-square)](https://packagist.org/packages/hackerESQ/laravel-settings)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
 Super simple key/value settings for Laravel 5.4+ that natively supports [encryption](#encryption) and [multi-tenancy](#multi-tenancy).
