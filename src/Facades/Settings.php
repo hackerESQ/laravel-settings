@@ -1,6 +1,6 @@
 <?php
 
-namespace hackerESQ\Settings\Facades;
+namespace HackerESQ\Settings\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

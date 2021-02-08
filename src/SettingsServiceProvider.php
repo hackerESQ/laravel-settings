@@ -1,6 +1,6 @@
 <?php
 
-namespace hackerESQ\Settings;
+namespace HackerESQ\Settings;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -27,11 +27,9 @@ class SettingsServiceProvider extends ServiceProvider {
         /**
          * Publish settings migration
          */
-        $timestamp = date('Y_m_d_His', time());
-
         $this->publishes([
-            __DIR__.'/../database/migrations/create_settings_table.php' => $this->app->databasePath()."/migrations/{$timestamp}_create_settings_table.php",
-            __DIR__.'/../database/migrations/update_settings_table.php' => $this->app->databasePath()."/migrations/{$timestamp}_update_settings_table.php",
+            __DIR__.'/../database/migrations/2020_04_01_100000_create_settings_table.php' => $this->app->databasePath()."/migrations/2020_04_01_100000_create_settings_table.php",
+            __DIR__.'/../database/migrations/2020_04_01_100001_update_settings_table.php' => $this->app->databasePath()."/migrations/2020_04_01_100001_update_settings_table.php",
         ], 'migrations');
 
     }
@@ -44,7 +42,7 @@ class SettingsServiceProvider extends ServiceProvider {
 	public function register () {
 
 		// bind 'settings' to the class named 'settings' in the IOC container
-		$this->app->singleton('settings','hackerESQ\Settings\Settings');
+		$this->app->singleton('settings','HackerESQ\Settings\Settings');
 
 	}
 
