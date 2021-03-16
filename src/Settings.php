@@ -113,7 +113,7 @@ class Settings
     /**
      * Get value of settings by key
      * @param mixed $key (optional)
-     * @return mixed string|boolean
+     * @return mixed string
      */
     public function get(mixed $key = NULL)
     {
@@ -140,7 +140,7 @@ class Settings
             return $settings[$key]; 
         } 
 
-        return false;
+        return;
     }
 
     /**
