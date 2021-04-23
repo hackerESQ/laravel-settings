@@ -16,7 +16,7 @@ class Settings
      * @param string $tenant (optional)
      * @return Settings $this
      */
-    public function tenant(string $tenant='') 
+    public function tenant(string $tenant = '')
     {
         $this->tenant = $tenant;
 
@@ -28,7 +28,7 @@ class Settings
      * @param bool $force (optional)
      * @return Settings $this
      */
-    public function force(bool $force=true) 
+    public function force(bool $force = true)
     {
         $this->force = $force;
 
@@ -39,19 +39,22 @@ class Settings
      * Get settings from the database
      * @return array
      */
-    private function resolveDB() 
+    private function resolveDB()
     {
-        return DB::table(config('settings.table','settings'))->where('tenant',$this->tenant)->pluck('value', 'key')->toArray();
+        return DB::table(config('settings.table', 'settings'))
+            ->where('tenant', $this->tenant)
+            ->pluck('value', 'key')
+            ->toArray();
     }
 
     /**
      * Get settings from the cache
      * @return array
      */
-    private function resolveCache() 
+    private function resolveCache()
     {
-        if (config('settings.cache',true)) {
-            return Cache::rememberForever('settings'.$this->tenant, function () {
+        if (config('settings.cache', true)) {
+            return Cache::rememberForever('settings' . $this->tenant, function () {
                 return $this->resolveDB();
             });
         }
@@ -64,11 +67,11 @@ class Settings
      * @param array $settings
      * @return array
      */
-    private function decryptHandler(array $settings) 
+    private function decryptHandler(array $settings)
     {
         // DO WE NEED TO DECRYPT ANYTHING?
         foreach ($settings as $key => $value) {
-            if ( in_array( $key, config('settings.encrypt',[]) ) && !empty($value) ) {
+            if (in_array($key, config('settings.encrypt', [])) && !empty($value)) {
                 Arr::set($settings, $key, decrypt($value));
             }
         }
@@ -80,11 +83,11 @@ class Settings
      * @param array $settings
      * @return array
      */
-    private function encryptHandler(array $settings) 
+    private function encryptHandler(array $settings)
     {
         // DO WE NEED TO ENCRYPT ANYTHING?
         foreach ($settings as $key => $value) {
-            if  ( in_array($key, config('settings.encrypt',[]) ) && !empty($value)) {
+            if (in_array($key, config('settings.encrypt', [])) && !empty($value)) {
                 Arr::set($settings, $key, encrypt($value));
             }
         }
@@ -99,37 +102,44 @@ class Settings
      */
     private function upsert(string $key, $value)
     {
-        DB::table(config('settings.table','settings'))->updateOrInsert([
-            'key'=>$key,
-            'tenant'=>$this->tenant
-        ],
-        [
-            'key'=>$key,
-            'value'=>$value,
-            'tenant'=>$this->tenant
-        ]); 
+        DB::table(config('settings.table', 'settings'))->updateOrInsert(
+            [
+                'key' => $key,
+                'tenant' => $this->tenant
+            ],
+            [
+                'key' => $key,
+                'value' => $value,
+                'tenant' => $this->tenant
+            ]
+        );
     }
 
     /**
      * Get value of settings by key
-     * @param mixed $key (optional)
+     * @param string|array $key (optional)
+     * @param string|array $default (optional)
      * @return mixed string
      */
-    public function get(mixed $key = NULL)
+    public function get(string|array $key = NULL, string|array $default = NULL)
     {
         $settings = $this->decryptHandler($this->resolveCache());
 
         // no key passed, assuming get all settings
-        if ($key == NULL) 
+        if (is_null($key)) {
             // are we hiding everything?
-            return (config('settings.hidden',[]) == ['*']) 
+            return (config('settings.hidden', []) == ['*'])
                 ? [] // then return nothing.
-                : Arr::except($settings,config('settings.hidden',[])); // else, return everything else
-        
+                : array_merge(
+                    $default ?? [],
+                    Arr::except($settings, config('settings.hidden', []))
+                );
+        }
+
         // array of keys passed, return those settings only
         if (is_array($key)) {
             foreach ($key as $key) {
-                $result[$key] = $settings[$key] ?? null;
+                $result[$key] = $settings[$key] ?? $default[$key] ?? NULL;
             }
             return $result;
         }
@@ -137,10 +147,10 @@ class Settings
         // single key passed, return that setting only
         if (array_key_exists($key, $settings)) {
 
-            return $settings[$key]; 
-        } 
+            return $settings[$key];
+        }
 
-        return;
+        return $default;
     }
 
     /**
@@ -153,7 +163,7 @@ class Settings
         $settings = $this->decryptHandler($this->resolveCache());
 
         if (is_array($needle)) {
-            foreach($needle as $item) {
+            foreach ($needle as $item) {
                 if (!array_key_exists($item, $settings)) return false;
             }
             return true;
@@ -171,19 +181,19 @@ class Settings
         $changes = $this->encryptHandler($changes);
 
         // Extracts only fillable key/values from array using fillable config
-        if (config('settings.fillable',[]) != ['*'] && !$this->force) {
-            $changes = Arr::only($changes, config('settings.fillable',[]));
-        } 
-        
+        if (config('settings.fillable', []) != ['*'] && !$this->force) {
+            $changes = Arr::only($changes, config('settings.fillable', []));
+        }
+
         foreach ($changes as $key => $value) {
-            $this->upsert($key,$value);
+            $this->upsert($key, $value);
         }
 
         // reset cache
-        if (config('settings.cache',true)) {
-            Cache::forget('settings'.$this->tenant);
+        if (config('settings.cache', true)) {
+            Cache::forget('settings' . $this->tenant);
         }
 
         return true;
-    } 
+    }
 }

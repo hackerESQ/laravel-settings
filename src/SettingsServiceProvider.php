@@ -43,7 +43,7 @@ class SettingsServiceProvider extends ServiceProvider {
 
 		// bind 'settings' to the class named 'settings' in the IOC container
 		$this->app->singleton('settings', function ($app) {
-            return new \HackerESQ\Settings\Settings;
+            return new \HackerESQ\Settings\Settings ($app);
         });
 
 	}
