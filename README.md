@@ -4,7 +4,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/hackerESQ/laravel-settings.svg?style=flat-square)](https://packagist.org/packages/hackerESQ/laravel-settings)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
-Super simple key/value settings for Laravel 8.0+ that natively supports [encryption](#encryption) and [multi-tenancy](#multi-tenancy).
+Super simple key/value settings for Laravel that natively supports [encryption](#encryption) and [multi-tenancy](#multi-tenancy).
 
 * [Installation](#installation)
 * [Usage](#usage)
@@ -21,7 +21,7 @@ Super simple key/value settings for Laravel 8.0+ that natively supports [encrypt
   
   
 ## Installation
-This package can be used in Laravel 8.0 or higher.
+This package can be used in Laravel 8.0+ and 9.0+.
 
 You can install the package via composer:
 
