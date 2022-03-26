@@ -310,4 +310,16 @@ class SettingsTest extends TestCase
         $this->assertEquals('test', $settings['not_set'], json_encode($settings));
 
     }
+
+    /** @test */
+    public function it_encodes_arrays_to_json()
+    {
+        $this->app['config']->set('settings.fillable', ['*']);
+
+        Settings::set(['array' => ['test', 'one', 'two']]);
+
+        $settings = json_decode(Settings::get('array'));
+
+        $this->assertIsArray($settings, json_encode($settings));
+    }
 }

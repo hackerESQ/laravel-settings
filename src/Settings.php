@@ -109,7 +109,7 @@ class Settings
             ],
             [
                 'key' => $key,
-                'value' => $value,
+                'value' => is_array($value) ? json_encode($value) : $value,
                 'tenant' => $this->tenant
             ]
         );
