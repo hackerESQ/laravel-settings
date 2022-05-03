@@ -137,7 +137,7 @@ class Settings
 
             // should we cast this value
             foreach ($result as $key => $val) {
-                if (in_array($key, config('settings.castJson', []))) $result[$key] = json_encode($val);
+                if (in_array($key, config('settings.castJson', []))) $result[$key] = json_decode($val);
             }
 
             return $result;
