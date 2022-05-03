@@ -145,11 +145,10 @@ class Settings
 
         // array of keys passed, return those settings only
         if (is_array($key)) {
-            foreach ($key as $key => $val) {
-                $result[$key] = $settings[$key] ?? $default[$key] ?? NULL;
-
-                // should we cast this value
-                if (in_array($key, config('settings.castJson', []))) $result[$key] = json_decode($val);
+            foreach ($key as $key) {
+                $result[$key] = (in_array($key, config('settings.castJson', []))) 
+                    ? json_decode($settings[$key] ?? $default[$key] ?? NULL) 
+                    : $settings[$key] ?? $default[$key] ?? NULL;
             }
             return $result;
         }
