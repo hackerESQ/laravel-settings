@@ -57,5 +57,17 @@ return [
 
     'hidden' => [],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Keys to cast as an JSON object
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the settings that are cast as JSON objects when
+    | being retrieved or saved in the database. Use this setting to
+    | ensure your JSON is being shown as an array.
+    |
+    */
+
+    'castJson' => [],
 
 ];

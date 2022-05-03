@@ -128,12 +128,19 @@ class Settings
         // no key passed, assuming get all settings
         if (is_null($key)) {
             // are we hiding everything?
-            return (config('settings.hidden', []) == ['*'])
+            $result = (config('settings.hidden', []) == ['*'])
                 ? [] // then return nothing.
                 : array_merge(
                     $default ?? [],
                     Arr::except($settings, config('settings.hidden', []))
                 );
+
+            // should we cast this value
+            foreach ($result as $key => $val) {
+                if (in_array($key, config('settings.castJson', []))) $result[$key] = json_encode($val);
+            }
+
+            return $result;
         }
 
         // array of keys passed, return those settings only
