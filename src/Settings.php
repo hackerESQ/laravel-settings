@@ -156,7 +156,7 @@ class Settings
         // single key passed, return that setting only
         if (array_key_exists($key, $settings)) {
 
-            return (in_array($key, config('settings.castJson', []))) ? json_decode($settings[$key]) : $settings[$key];
+            return (in_array($key, config('settings.castJson', []))) ? json_decode($settings[$key], true) : $settings[$key];
         }
 
         return $default;
