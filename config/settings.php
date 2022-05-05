@@ -59,15 +59,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Keys to cast as an JSON object
+    | Keys to cast 
     |--------------------------------------------------------------------------
     |
-    | This option controls the settings that are cast as JSON objects when
-    | being retrieved or saved in the database. Use this setting to
-    | ensure your JSON is being shown as an array.
+    | This option controls the settings that are cast to native types
+    | by default. Currently you can choose 'json' or 'boolean' -
+    | in future, other types will be made available.
     |
     */
 
-    'castJson' => [],
+    'cast' => [],
 
 ];

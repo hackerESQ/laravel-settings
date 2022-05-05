@@ -109,7 +109,7 @@ class Settings
             ],
             [
                 'key' => $key,
-                'value' => is_array($value) ? json_encode($value) : $value,
+                'value' => $value,
                 'tenant' => $this->tenant
             ]
         );
@@ -123,42 +123,33 @@ class Settings
      */
     public function get(string|array $key = NULL, string|array $default = NULL)
     {
-        $settings = $this->decryptHandler($this->resolveCache());
+        $settings = $this->getCasts($this->decryptHandler($this->resolveCache()));
 
         // no key passed, assuming get all settings
         if (is_null($key)) {
             // are we hiding everything?
-            $result = (config('settings.hidden', []) == ['*'])
+            return (config('settings.hidden', []) == ['*'])
                 ? [] // then return nothing.
                 : array_merge(
                     $default ?? [],
                     Arr::except($settings, config('settings.hidden', []))
                 );
-
-            // should we cast this value
-            foreach ($result as $key => $val) {
-                if (in_array($key, config('settings.castJson', []))) $result[$key] = json_decode($val);
-            }
-
-            return $result;
         }
 
         // array of keys passed, return those settings only
         if (is_array($key)) {
             foreach ($key as $key) {
-                $result[$key] = (in_array($key, config('settings.castJson', []))) 
-                    ? json_decode($settings[$key] ?? $default[$key] ?? NULL) 
-                    : $settings[$key] ?? $default[$key] ?? NULL;
+                $result[$key] = $settings[$key] ?? $default[$key] ?? NULL;
             }
             return $result;
         }
 
         // single key passed, return that setting only
         if (array_key_exists($key, $settings)) {
-
-            return (in_array($key, config('settings.castJson', []))) ? json_decode($settings[$key], true) : $settings[$key];
+            return $settings[$key];
         }
 
+        // else return only default
         return $default;
     }
 
@@ -187,7 +178,7 @@ class Settings
      */
     public function set(array $changes)
     {
-        $changes = $this->encryptHandler($changes);
+        $changes = $this->setCasts($this->encryptHandler($changes));
 
         // Extracts only fillable key/values from array using fillable config
         if (config('settings.fillable', []) != ['*'] && !$this->force) {
@@ -204,5 +195,57 @@ class Settings
         }
 
         return true;
+    }
+
+    /**
+     * Casts database values to type
+     * @param array $settings
+     * @return array
+     */
+    public function getCasts(array $settings)
+    {
+        foreach(config('settings.cast') as $castable => $cast_to) {
+            if (!isset($settings[$castable])) {
+                continue;
+            }
+
+            // cast JSON
+            if ($cast_to == 'json') {
+                $settings[$castable] = json_decode($settings[$castable], true);
+            }
+
+            // // cast BOOLEAN
+            if ($cast_to == 'boolean') {
+                $settings[$castable] = $settings[$castable] == 1 ? true : false;
+            }
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Casts native values to string
+     * @param array $settings
+     * @return array
+     */
+    public function setCasts(array $settings)
+    {
+        foreach(config('settings.cast') as $castable => $cast_to) {
+            if (!isset($settings[$castable])) {
+                continue;
+            }
+
+            // cast JSON
+            if ($cast_to == 'json') {
+                $settings[$castable] = json_encode($settings[$castable]);
+            }
+
+            // // cast BOOLEAN
+            if ($cast_to == 'boolean') {
+                $settings[$castable] = $settings[$castable] == true ? 1 : 0;
+            }
+        }
+
+        return $settings;
     }
 }
