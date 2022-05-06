@@ -204,7 +204,7 @@ class Settings
      */
     public function getCasts(array $settings)
     {
-        foreach(config('settings.cast') as $castable => $cast_to) {
+        foreach(config('settings.cast', []) as $castable => $cast_to) {
             if (!isset($settings[$castable])) {
                 continue;
             }
@@ -230,7 +230,7 @@ class Settings
      */
     public function setCasts(array $settings)
     {
-        foreach(config('settings.cast') as $castable => $cast_to) {
+        foreach(config('settings.cast', []) as $castable => $cast_to) {
             if (!isset($settings[$castable])) {
                 continue;
             }

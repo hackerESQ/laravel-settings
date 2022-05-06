@@ -32,6 +32,7 @@ class SettingsTest extends TestCase
         $app['config']->set('settings.fillable', []);
         $app['config']->set('settings.cache', true);
         $app['config']->set('settings.hidden', []);
+        $app['config']->set('settings.cast', []);
     }
 
     /**
@@ -283,7 +284,6 @@ class SettingsTest extends TestCase
         $settings = Settings::get('baz', 'test');
 
         $this->assertEquals('test', $settings, json_encode($settings));
-
     }
 
     /** @test */
@@ -299,7 +299,6 @@ class SettingsTest extends TestCase
         $settings = Settings::get(['foo', 'bar', 'not_set'], ['not_set' => 'test']);
 
         $this->assertEquals('test', $settings['not_set'], json_encode($settings));
-
     }
 
     /** @test */
@@ -308,18 +307,31 @@ class SettingsTest extends TestCase
         $settings = Settings::get(['not_set'], ['not_set' => 'test']);
 
         $this->assertEquals('test', $settings['not_set'], json_encode($settings));
-
     }
 
     /** @test */
-    public function it_encodes_arrays_to_json()
+    public function it_casts_arrays()
     {
         $this->app['config']->set('settings.fillable', ['*']);
+        $this->app['config']->set('settings.cast', ['array' => 'json']);
 
         Settings::set(['array' => ['test', 'one', 'two']]);
 
-        $settings = json_decode(Settings::get('array'));
+        $settings = Settings::get('array');
 
-        $this->assertIsArray($settings, json_encode($settings));
+        $this->assertIsArray($settings);
+    }
+
+    /** @test */
+    public function it_casts_booleans()
+    {
+        $this->app['config']->set('settings.fillable', ['*']);
+        $this->app['config']->set('settings.cast', ['boolean' => 'boolean']);
+
+        Settings::set(['boolean' => true]);
+
+        $settings = Settings::get('boolean');
+
+        $this->assertEquals($settings, true);
     }
 }
