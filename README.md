@@ -15,6 +15,7 @@ Super simple key/value settings for Laravel that natively supports [encryption](
   * [Check if a setting is set](#check-if-a-setting-is-set)
 * [Encryption](#encryption)
 * [Multi-tenancy](#multi-tenancy)
+* [Casting](#casting)
 * [Disable cache](#disable-cache)
 * [Hidden settings](#hidden-settings)
 * [Customize table name](#customize-table-name)
@@ -132,6 +133,28 @@ Settings::tenant('tenant_name')->has('firm_name');
 ```
 
 The 'tenant' attribute passed can be any alphanumeric string. The 'tenant' attribute can also be left blank to have, for example, settings saved to a so-called "central" tenant. Note: the 'tenant' attribute is not strictly typed, and will be passed to the database query as a string. 
+
+## Casting
+You can cast settings to native PHP types using the `cast` option in the settings.php config. Here's an example of an array being cast to JSON and back to a native PHP array:
+
+
+```php
+// settings.php
+
+'cast' => [
+  'array_of_values' => 'json' 
+]
+```
+
+Which allows you to do the following:
+
+```php
+Settings::set(['array_of_values' => ['one', 'two', 'three']]);
+
+return Settings::get('array_of_values');
+
+// returns a PHP array: ['one', 'two', 'three']
+```
 
 ## Disable cache
 Depending on your use case, you may like to disable the cache (enabled by default). Disable the cache by modifying the [config/settings.php](https://github.com/hackerESQ/settings/blob/master/config/settings.php) file as such:
