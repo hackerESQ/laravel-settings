@@ -21,7 +21,7 @@
     },
     "require": {
         "php" : ">=8.0",
-        "laravel/framework": "^8.0|^9.0",
+        "laravel/framework": "^8.0|^9.0|^10.0",
         "doctrine/dbal": "^2.8"
     },
     "require-dev": {
