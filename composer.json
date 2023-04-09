@@ -1,6 +1,6 @@
 {
     "name": "hackeresq/laravel-settings",
-    "description": "Super simple key/value settings for Laravel 5+",
+    "description": "Super simple key/value settings for Laravel 8+",
     "keywords": [
         "settings",
         "laravel",
@@ -22,7 +22,7 @@
     "require": {
         "php" : ">=8.0",
         "laravel/framework": "^8.0|^9.0|^10.0",
-        "doctrine/dbal": "^2.8"
+        "doctrine/dbal": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0|^8.0|^9.0",
