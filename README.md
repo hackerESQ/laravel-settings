@@ -22,7 +22,7 @@ Super simple key/value settings for Laravel that natively supports [encryption](
   
   
 ## Installation
-This package can be used in Laravel 8.0+ and 9.0+.
+This package can be used in Laravel 8.0+.
 
 You can install the package via composer:
 
