@@ -214,9 +214,14 @@ class Settings
                 $settings[$castable] = json_decode($settings[$castable], true);
             }
 
-            // // cast BOOLEAN
+            // cast BOOLEAN
             if ($cast_to == 'boolean') {
                 $settings[$castable] = $settings[$castable] == 1 ? true : false;
+            }
+            
+            // cast INT
+            if ($cast_to == 'integer') {
+                $settings[$castable] = (int) $settings[$castable];
             }
         }
 
@@ -240,7 +245,7 @@ class Settings
                 $settings[$castable] = json_encode($settings[$castable]);
             }
 
-            // // cast BOOLEAN
+            // cast BOOLEAN
             if ($cast_to == 'boolean') {
                 $settings[$castable] = $settings[$castable] == true ? 1 : 0;
             }
